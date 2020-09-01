@@ -7,13 +7,11 @@ import (
 
 func New() *HashMap {
 	return &HashMap{
-		size: 0,
 		mapping: map[string] []elements.IElement{},
 	}
 }
 
 type HashMap struct {
-	size     uint64
 	mapping  map[string] []elements.IElement
 }
 
@@ -44,16 +42,15 @@ func (h *HashMap) Filter(filterFn maps.FilterFn) maps.IMap {
 }
 
 func (h *HashMap) Size() uint64 {
-	return h.size
+	return uint64(len(h.mapping))
 }
 
 func (h *HashMap) IsEmpty() bool {
-	return h.size == 0
+	return len(h.mapping) == 0
 }
 
 func (h *HashMap) Put(key, value elements.IElement) {
 	h.mapping[key.ToString().Value().(string)] = []elements.IElement{ key, value }
-	h.size++
 }
 
 func (h *HashMap) Get(key elements.IElement) (elements.IElement, error) {
@@ -67,6 +64,5 @@ func (h *HashMap) Get(key elements.IElement) (elements.IElement, error) {
 func (h *HashMap) Delete(key elements.IElement) {
 	if len(h.mapping) > 0 {
 		delete(h.mapping, key.ToString().Value().(string))
-		h.size--
 	}
 }
